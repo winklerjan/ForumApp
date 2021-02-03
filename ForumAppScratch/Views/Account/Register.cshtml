@@ -1,0 +1,28 @@
+﻿@{
+    Layout = "_Layout";
+    ViewBag.Title = "Register";
+}
+@model ForumAppScratch.Dto.RegisterDto
+
+<h2>Register new profile</h2>
+
+<form method="post" asp-action="register" asp-controller="account">
+    <div asp-validation-summary="All"></div>
+    <div>
+        <label asp-for="Email"></label>
+        <input asp-for="Email" placeholder="e.g. johndoe@mail.com" />
+        @*<span asp-validation-for="Email"></span>*@
+    </div>
+   
+    <div>
+        <label asp-for="Password"></label>
+        <input asp-for="Password" placeholder="e.g. H3ll0+" />
+        @*<span asp-validation-for="Password"></span>*@
+    </div>
+    <div>
+        <label asp-for="ConfirmPassword"></label>
+        <input asp-for="ConfirmPassword" placeholder="e.g. H3ll0+" />
+        @*<span asp-validation-for="ConfirmPassword"></span>*@
+    </div>
+    <button type="submit">Register</button>
+</form>

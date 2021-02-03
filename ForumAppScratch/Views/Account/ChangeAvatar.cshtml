@@ -1,0 +1,29 @@
+﻿@model ForumAppScratch.ViewModels.AdminViewModel
+
+@{
+    Layout = "_Layout";
+    ViewBag.Title = $"Change Avatar";
+}
+
+<h2>Change avatar</h2>
+
+<div>
+    Current avatar: <br />
+    @if (Model.User.AvatarUrl != null) 
+    {
+        <img src="@Model.User.AvatarUrl" width="200" height="200" alt="Avatar" />
+    }
+    else
+    {
+        <span>You have no avatar yet.</span>
+    }
+</div>
+
+<form action="changeAvatar" method="post">
+    <label for="avatarUrl">Avatar URL: </label>
+    <input type="text" name="avatarUrl" placeholder="Current: @Model.User.AvatarUrl" />
+    <button class="btn btn-dark" type="submit">Submit changes</button>
+
+</form>
+
+<a asp-action="admin">Cancel</a>

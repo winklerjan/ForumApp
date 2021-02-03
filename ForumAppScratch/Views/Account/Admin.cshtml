@@ -1,0 +1,9 @@
+﻿@model ForumAppScratch.ViewModels.AdminViewModel
+@{
+    Layout = "_Layout";
+    ViewBag.Title = $"{User.Identity.Name}'s Admin Panel";
+}
+
+<a asp-action="ChangeUsername">Change Username</a>
+<br />
+<a asp-action="ChangeAvatar">Change Avatar</a>

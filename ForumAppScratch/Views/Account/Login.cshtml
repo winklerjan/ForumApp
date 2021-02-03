@@ -1,0 +1,66 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "Login";
+}
+@model ForumAppScratch.Dto.LoginDto
+    <br />
+    <div class="text-center">
+        <h3>Log into your account</h3>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-6 card">
+            <h4>Local Login </h4>
+            <form asp-action="login" asp-controller="account" method="post">
+                <div asp-validation-summary="All"></div>
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input class="form-control" asp-for="Email" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password"></label>
+                    <input class="form-control" asp-for="Password" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="RememberMe"></label>
+                    <input class="form-check-label" asp-for="RememberMe" />
+                </div>
+                        <button class="btn btn-dark" type="submit">Login</button>
+                        <br />
+                <br />
+            </form>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-5 card">
+            <h4>External Login</h4>
+            @if (!Model.ExternalLogins.Any())
+            {
+                <p>There are no external logins configured.</p>
+            }
+            else
+            {
+                <form asp-action="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                    <div>
+                        @foreach (var provider in Model.ExternalLogins)
+                        {<br />
+                            <button class="alert" type="submit" name="provider"
+                                    value="@provider.Name" title="Login using your @provider.DisplayName account">
+                                @provider.DisplayName
+                            </button>
+                        }
+                    </div>
+                </form>
+            }
+        </div>
+        <br />
+    </div>
+
+  
+        <div class="text-center">
+            <br />
+            <h3>No account yet?</h3>
+            <h4><a asp-action="register">Register new account</a></h4>
+        </div>

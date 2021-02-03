@@ -1,0 +1,53 @@
+﻿@using Microsoft.AspNet.Identity;
+
+@model ForumAppScratch.ViewModels.UserProfileViewModel
+@{ Layout = "_Layout";
+                ViewBag.Title = $"{Model.User.UserName}'s Profile";
+                var lastPosted = Model.RecentPosts; }
+
+<h2>@Model.User.UserName's profile</h2>
+<div>
+    <a asp-action="admin">Profile administration</a>
+</div>
+<div>
+    @if (Model.User.AvatarUrl != null)
+    {
+<img src="@Model.User.AvatarUrl" width="200" height="200" alt="Avatar" />}
+</div>
+<div>
+    Total count of topics: @Model.Topics.Count()
+</div>
+<div>
+    Total count of posts: @Model.Posts.Count()
+</div>
+<div>
+    Last posted in: @*@lastPosted.Topic.Name*@
+
+    @if (lastPosted.Count == 0)
+    {
+<div>
+    You haven't posted in any topics yet.
+</div> }
+            else if (lastPosted.Count > 0 && lastPosted.Count <= 5) //TODO sort already in service, use foreach here
+            {
+<ul>
+    @for (int i = lastPosted.Count - 1; i >= 0; i--) //TODO merge the same topics into one link - linq DISTINCT
+    {
+<li>
+    <a asp-action="topic" asp-route-topicId="@lastPosted[i].Topic.Id" asp-controller="forum">
+        @lastPosted[i].Topic.Name
+    </a>
+</li>                }
+</ul> }
+            else
+            {
+<ul>
+    @for (int i = lastPosted.Count - 1; i >= lastPosted.Count - 5; i--)
+    {
+<li>
+    <a asp-action="topic" asp-route-topicId="@lastPosted[i].Topic.Id" asp-controller="forum">
+        @lastPosted[i].Topic.Name
+    </a>
+</li>                }
+</ul>}
+</div>

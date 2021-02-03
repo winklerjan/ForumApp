@@ -1,0 +1,68 @@
+﻿@model ForumAppScratch.Dto.TopicDto
+@{
+    Layout = "_Layout";
+    ViewBag.Title = $"{Model.Topic.Name}";
+}
+
+<h2>Topic: @Model.Topic.Name</h2>
+
+@if (Model.Posts.Count != 0)
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Author</th>
+                <th>Posted</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var post in Model.Posts)
+            {
+                <tr>
+                    <td class="font-weight-bold">@post.Title</td>
+                    <td>@post.Content</td>
+                    <td>
+                        @if (post.Author != null)
+                        {
+                            @post.Author;
+                        }
+                        else
+                        {
+                            <span>unknown author</span>
+                        }
+                    </td>
+                    <td>@post.CreatedAt</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div>
+        There are no posts in "@Model.Topic.Name" yet.<br />
+    </div>
+}
+<div class="new_post">
+    <h3>Write a new post:</h3>
+    <form asp-action="newPost" method="post">
+        <div asp-validation-summary="All"></div>
+        <div>
+            @*<input for="AuthorId" type="hidden" value="@Model.User.Id" />*@
+            <input asp-for="AuthorId" type="hidden" value="@Model.User.Id" />
+            <input asp-for="TopicId" type="hidden" value="@Model.Topic.Id" />
+        </div>
+        <div>
+            <label asp-for="Title"></label>
+            <input asp-for="Title" placeholder="Type something..." required /><br />
+        </div>
+        <div>
+            <label asp-for="Content"></label>
+            <input asp-for="Content" placeholder="Type something..." required /><br />
+        </div>
+        <button class="btn btn-dark" type="submit">Submit post</button>
+    </form>
+</div>
+

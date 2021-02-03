@@ -1,0 +1,69 @@
+﻿
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "Home";
+}
+@model ForumAppScratch.ViewModels.ForumViewModel
+
+<h1>Welcome to the forum!</h1>
+
+@if (Model.Topics.Count != 0)
+{
+    <table class="table table-bordered">
+        @* TODO add pagination *@
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Topic</th>
+                <th>Posts</th>
+                <th>Views</th>
+                <th>Last Post By</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var topic in Model.Topics)
+            {
+                <tr>
+                    <td>
+                        @topic.Id
+                    </td>
+                    <td>
+                        <a asp-action="topic" asp-route-topicId="@topic.Id">@topic.Name</a>
+                    </td>
+                    <td>
+                        @topic.Posts.Count
+                    </td>
+                    <td>
+                        @topic.TopicViews
+                    </td>
+                    <td>
+                        @if (topic.Posts.Count() != 0)
+                        {
+                            @Model.Users.FirstOrDefault(u=>u.Id == topic.Posts.Last().AuthorId).UserName
+                        }
+                        else
+                        {
+                            <span>No posts yet.</span>
+                        }
+
+                    </td>
+                    <td>
+                        @topic.CreatedAt
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table> //TODO add pagination
+}
+else
+{
+    <div> There is nothing to show yet.</div>
+}
+<div>
+    <form asp-action="newTopic">
+         <button class="btn btn-dark" type="submit">Add new topic</button>
+    </form>
+    </div>
+
+<partial name="~/Views/Shared/_PartialView1.cshtml" />
